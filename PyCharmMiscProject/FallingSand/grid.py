@@ -1,0 +1,49 @@
+import pygame
+
+
+class Grid:
+    def __init__(self, width, height, cell_size):
+        self.rows = height // cell_size
+        self.columns = width // cell_size
+        self.cell_size = cell_size
+        self.cells = [[None for _ in range(self.columns)] for _ in range(self.rows)]
+
+    def draw(self, window):
+        for row in range(self.rows):
+            for column in range(self.columns):
+                particle = self.cells[row][column]
+                if particle is None:
+                    continue
+                color = particle.color
+                pygame.draw.rect(
+                    window,
+                    color,
+                    (column * self.cell_size, row * self.cell_size, self.cell_size, self.cell_size),
+                )
+
+    def is_cell_empty(self, row, column):
+        if 0 <= row < self.rows and 0 <= column < self.columns:
+            return self.cells[row][column] is None
+        return False
+
+    def get_cell(self, row, column):
+        if 0 <= row < self.rows and 0 <= column < self.columns:
+            return self.cells[row][column]
+        return None
+
+    def set_cell(self, row, column, particle):
+        if 0 <= row < self.rows and 0 <= column < self.columns:
+            self.cells[row][column] = particle
+
+    def add_particle(self, row, column, particle_cls):
+        if 0 <= row < self.rows and 0 <= column < self.columns:
+            self.cells[row][column] = particle_cls()
+
+    def remove_particle(self, row, column):
+        if 0 <= row < self.rows and 0 <= column < self.columns:
+            self.cells[row][column] = None
+
+    def clear(self):
+        for row in range(self.rows):
+            for column in range(self.columns):
+                self.remove_particle(row, column)
