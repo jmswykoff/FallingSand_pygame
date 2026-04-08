@@ -1,3 +1,12 @@
+import asyncio
+
+async def main():
+    while True:
+        # game loop here
+        await asyncio.sleep(0)
+
+asyncio.run(main())
+
 import pygame
 
 from simulation import Simulation
